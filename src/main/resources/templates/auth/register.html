@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-form-title" style="background-image: url(images/polygon-texture.jpg);">
+					<span class="login100-form-title-1">
+						Register new account
+					</span>
+            </div>
+
+
+
+            <form class="login100-form validate-form" action="/" th:action="@{/auth/register}" th:object="${user}"
+                  method="POST" enctype="utf8">
+
+
+                <div class="wrong-fields" th:if="${wrongInput == true}">
+                    <p id="err-wrong-input" >Wrong input!</p>
+                    <p>Make sure that passwords match and fields have valid length</p>
+                </div>
+
+                <div class="user-exist-error" th:if="${userExist == true}">
+                    <p id="err-msg" >Username is already taken!</p>
+                    <p>Please choose another one.</p>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-26" data-validate="First name is required">
+                    <span class="label-input100">First name</span>
+                    <input class="input100" type="text" name="username" th:field="*{firstName}"
+                           placeholder="Enter first name (min. 3 characters)">
+
+                    <p class="fieldErr" th:each="error : ${#fields.errors('firstName')}"
+                       th:text="${error}">Validation error</p>
+
+                    <span class="focus-input100"></span>
+
+
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-26" data-validate="Last name is required">
+                    <span class="label-input100">Last name</span>
+                    <input class="input100" type="text" name="username" th:field="*{lastName}"
+                           placeholder="Enter last name (min. 3 characters)">
+
+                    <p class="fieldErr" th:each="error : ${#fields.errors('lastName')}"
+                       th:text="${error}">Validation error</p>
+
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-26" data-validate="Email is required">
+                    <span class="label-input100">Email</span>
+                    <input class="input100" type="text" name="username" th:field="*{email}"
+                           placeholder="Enter email address (min. 3 characters)">
+
+                    <p class="fieldErr" th:each="error : ${#fields.errors('email')}"
+                       th:text="${error}">Validation error</p>
+
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+                    <span class="label-input100">Username</span>
+                    <input class="input100" type="text" name="username" th:field="*{username}"
+                           placeholder="Enter username (min. 3 characters)">
+
+                    <p class="fieldErr" th:each="error : ${#fields.errors('username')}"
+                       th:text="${error}">Validation error</p>
+
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+                    <span class="label-input100">Password</span>
+                    <input class="input100" type="password" name="password" th:field="*{password}"
+                           placeholder="Enter password (min. 8 characters) ">
+
+                    <p class="fieldErr" th:each="error : ${#fields.errors('password')}"
+                       th:text="${error}">Validation error</p>
+
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+                    <span class="label-input100">Retype password</span>
+                    <input class="input100" type="password" name="matchPassword" th:field="*{matchingPassword}"
+                           placeholder="Retype password (min. 8 characters)">
+
+                    <span class="focus-input100"></span>
+                </div>
+
+
+                <div class="flex-sb-m w-full p-b-30">
+                    <div class="contact100-form-checkbox">
+                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                        <label class="label-checkbox100" for="ckb1">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div>
+                        <a th:href="@{/auth/login.html}">
+                            Log in with an existing account
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button type="submit" class="login100-form-btn">
+                        Register
+                    </button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script th:src="@{/auth/js/main.js}" src="../static/auth/js/main.js"></script>
+
+</body>
+</html>

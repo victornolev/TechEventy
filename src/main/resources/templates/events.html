@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>TechEventy</title>
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link th:href="@{/css/bootstrap.min.css}" type="text/css" rel="stylesheet"
+          href="../../static/css/bootstrap.min.css"/>
+
+    <!-- Font Awesome Icon -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" href="static/css/font-awesome.min.css">
+
+    <!-- Custom stylesheet -->
+    <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet" href="../../static/css/style.css"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<!-- Header -->
+<header id="header" th:replace="fragments/navigation::menu">
+</header>
+<!-- /Header -->
+
+<!-- Hero-area -->
+<div class="hero-area section">
+
+    <!-- Backgound Image -->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/polygon-texture.jpg)"></div>
+    <!-- /Backgound Image -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 text-center">
+                <h1 class="white-text">Events</h1>
+                <h3 class="white-text" th:text="${eventsCategory}">CategoryName</h3>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /Hero-area -->
+
+<!-- Blog -->
+<div id="events" class="section">
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- main events -->
+            <div id="main" class="col-md-9">
+
+                <!-- row -->
+                <div class="row">
+                    <!-- error message -->
+                    <div th:if="${#lists.isEmpty(events)}">
+                        <h3 align="center">There are no results that match this criteria!</h3>
+                        <h4 align="center">Go back to
+                            <a style="color: #57b846" th:href="@{'/events'}">events</a>
+                        </h4>
+                    </div>
+                    <!-- /error message -->
+
+                    <!-- single events -->
+                    <div class="col-md-6" th:unless="${#lists.isEmpty(events)}"
+                         th:each="event : ${events}">
+
+                        <div class="single-blog">
+                            <div class="blog-img">
+                                <a th:href="@{'/event-details/' + ${event.getId()}}">
+                                    <img th:if="${event.getImagePath() != null}"
+                                         th:src="${'http://localhost:8080/img/'+ event.getImagePath()}"
+                                         alt="Image of event">
+                                    <img th:if="${event.getImagePath() == null}" th:src="@{/img/default-image.jpg}"
+                                         src="../../static/img/default-event.jpg" alt="Default image of event">
+                                </a>
+                            </div>
+                            <h4><a th:href="@{'/event-details/' + ${event.getId()}}" th:text="${event.name}"></a></h4>
+                            <div class="blog-meta">
+                                <div id="organisers-of-event">
+                                    Organisers:
+                                    <span th:if="${#lists.isEmpty(event.organisers)}">
+                                        <b>No available information</b>
+                                    </span>
+                                    <div class="blog-meta-author" th:unless="${#lists.isEmpty(event.organisers)}"
+                                         th:each="eventOrganiser :${event.organisers}">
+                                            <a th:href="@{'/organiser-details/' + ${eventOrganiser.getId()}}"
+                                               th:text="${eventOrganiser.name}">Organiser name</a>
+                                    </div>
+                                </div>
+
+                                <div class="blog-meta-place">
+                                    Location:
+                                    <span th:if="${event.location == null}">
+                                        <b>No available information</b>
+                                    </span>
+                                    <a href="#" th:text="${event.location}"></a>
+                                </div>
+
+                                <div>
+                                    On & at:
+                                    <span th:if="${event.getDateTime() == null}">
+                                        <b>No available information</b>
+                                    </span>
+                                    <b>
+                                        <span th:unless="${event.getDateTime() == null}" th:text="${#temporals.format(event.getDateTime(), 'dd-MM-yyyy HH:mm')}">
+                                        </span>
+                                    </b>
+                                    <!--<span class="blog-meta-comments"><a href="#"><i
+                                           class="fa fa-comments"></i> 35</a></span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /single events -->
+
+                </div>
+                <!-- /row -->
+
+                <!-- row -->
+                <div class="row">
+
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /main events -->
+
+            <!-- aside events -->
+            <div id="aside" class="col-md-3">
+
+                <!-- search widget -->
+                <div class="widget search-widget">
+                    <form>
+                        <input class="input" type="text" name="search">
+                        <button><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <!-- /search widget -->
+
+                <!-- category widget -->
+                <div class="widget category-widget">
+                    <h3>Categories</h3>
+                    <a class="category" th:each="category : ${categories}"
+                       th:href="@{'/events/category/' + ${category.getName().toLowerCase()}}"
+                       th:text="${category.name}">Web
+                        <span>12</span>
+                    </a>
+                </div>
+                <!-- /category widget -->
+
+                <!-- tags widget -->
+                <!-- preferences -->
+                <div class="widget tags-widget">
+                    <h3>Preferences</h3>
+                    <a class="tag" th:each="preferenceType : ${eventPreferenceTypes}" th:href="@{'/events/preference/'
+                     + ${preferenceType}}"
+                       th:text="${preferenceType}">Past</a>
+                </div>
+                <!-- /tags widget -->
+            </div>
+            <!-- /aside events -->
+
+        </div>
+        <!-- row -->
+
+    </div>
+    <!-- container -->
+
+</div>
+<!-- /Blog -->
+
+<!-- Footer -->
+<footer id="footer" class="section">
+    <div class="container">
+
+    <!-- row -->
+    <div id="bottom-footer" class="row">
+
+        <!-- social -->
+        <div class="col-md-4 col-md-push-8">
+            <ul class="footer-social">
+                <li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="#" class="instagram"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#" class="youtube"><i class="fa fa-youtube"></i></a></li>
+                <li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+        </div>
+        <!-- /social -->
+
+        <!-- copyright -->
+        <div class="col-md-8 col-md-pull-4">
+            <div class="footer-copyright">
+                    <span>&copy; Copyright 2018. All Rights Reserved. <!--| This template is made with <i
+                            class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com">Colorlib</a>-->
+                    </span>
+            </div>
+        </div>
+        <!-- /copyright -->
+
+    </div>
+    <!-- row -->
+
+    </div>
+    <!-- /container -->
+
+</footer>
+<!-- /Footer -->
+
+<!-- preloader -->
+<div id='preloader'>
+    <div class='preloader'></div>
+</div>
+<!-- /preloader -->
+
+
+<!-- jQuery Plugins -->
+<script th:src="@{/js/jquery.min.js}" type="text/javascript" src="../../static/js/jquery.min.js"></script>
+<script th:src="@{/js/bootstrap.min.js}" type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+<script th:src="@{/js/main.js}" type="text/javascript" src="../../static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+<div class="container" th:fragment="menu">
+
+    <div class="navbar-header">
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggle">
+            <span></span>
+        </button>
+        <!-- /Mobile toggle -->
+    </div>
+
+    <nav id="nav">
+        <ul class="main-menu nav navbar-nav navbar-right">
+            <li><a href="index.html" th:href="@{/home}">Home</a></li>
+            <li><a href="events.html" th:href="@{/events}">Events</a></li>
+            <li><a href="organisers.html" th:href="@{/organisers}">Organisers</a></li>
+            <li><a href="create-event.html" th:href="@{/create-event}">Add event</a></li>
+            <li>
+                <a href="profile" sec:authorize="isAuthenticated()">Hello,
+                    <span sec:authentication="name"><b>Username</b></span>
+                </a>
+            </li>
+            <li><a href="register.html" th:href="@{/auth/register}" sec:authorize="isAnonymous()">Sign in/Register</a>
+            </li>
+
+
+
+        </ul>
+    </nav>
+
+</div>
+
+</body>
+</html>
